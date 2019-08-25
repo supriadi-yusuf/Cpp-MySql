@@ -5,7 +5,7 @@ Steps to install mysql/c++ connector (https://centos.org/forums/viewtopic.php?t=
 2. rpm -Uvh mysql-connector-c++-1.1.9-linux-el7-x86-64bit.rpm
 
 
-For compiling source code :
+Source Code compilation :
 
  g++ [file_cpp_name].cpp -o [output] -l mysqlcppconn
 
