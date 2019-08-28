@@ -1,0 +1,58 @@
+CREATE TABLE Country( Code CHAR(3), Name CHAR(52), Continent CHAR(30), Population INT);
+
+########################################################################################
+
+DELIMITER $$ # change delimiter
+CREATE PROCEDURE add_country (IN country_code CHAR(3),
+                              IN country_name CHAR(52),
+                              IN continent_name CHAR(30))
+BEGIN
+  INSERT INTO Country(Code, Name, Continent) VALUES (country_code, country_name, continent_name);
+END$$
+DELIMITER ; # restore old delimiter
+
+#########################################################################################
+
+DELIMITER $$ # change delimiter
+
+CREATE PROCEDURE get_pop (IN country_name CHAR(52),
+                          OUT country_pop BIGINT)
+BEGIN
+  SELECT Population INTO country_pop FROM Country
+    WHERE Name = country_name;
+END;
+
+CREATE PROCEDURE get_pop_continent (IN continent_name CHAR(30),
+                                    OUT continent_pop BIGINT)
+BEGIN
+  SELECT SUM(Population) INTO continent_pop FROM Country
+    WHERE Continent = continent_name;
+END;
+
+CREATE PROCEDURE get_pop_world (OUT world_pop BIGINT)
+BEGIN
+  SELECT SUM(Population) INTO world_pop FROM Country;
+END;
+
+$$
+
+DELIMITER ; # restore old delimiter
+
+##########################################################################################
+
+DELIMITER $$ # change delimiter
+
+CREATE PROCEDURE get_data ()
+BEGIN
+  SELECT Code, Name, Population, Continent FROM Country
+    WHERE Continent = 'Oceania' AND Population < 10000;
+  SELECT Code, Name, Population, Continent FROM Country
+    WHERE Continent = 'Europe' AND Population < 10000;
+  SELECT Code, Name, Population, Continent FROM Country
+    WHERE Continent = 'North America' AND Population < 10000;
+END;
+
+$$
+
+DELIMITER ; # restore old delimiter
+
